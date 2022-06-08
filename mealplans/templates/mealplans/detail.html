@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load markdownify %}
+
+{% block content %}
+<main class="mealplans-detail">
+    <div>
+        <a href="{% url 'mealplan_edit' mealplan.id %}">Edit</a>
+        <a href="{% url 'mealplan_delete' mealplan.id %}">Delete</a>
+    </div>
+    <h2>Recipes for {{ mealplan.name }}</h2>
+    {% for recipe in mealplan.recipes.all %}
+    <p>
+        <a href="{% url 'recipe_detail' recipe.pk %}">{{ recipe.name }}</a>
+    </p>
+    {% endfor %}
+</main>
+{% endblock content %}

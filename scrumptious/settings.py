@@ -41,6 +41,7 @@ LOGOUT_URL = "logout"
 INSTALLED_APPS = [
     "recipes.apps.RecipesConfig",
     "tags.apps.TagsConfig",
+    "mealplans.apps.MealPlansConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",

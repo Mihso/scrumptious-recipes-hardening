@@ -21,7 +21,6 @@
                 <li>
                     <a href="{% url 'tags_list' %}">Tags</a>
                 </li>
-                <li><a href="{% url 'mealplans_list' %}">Meal Plans</li>
                 <li>
                     {% if user.is_authenticated %}
                     <a href="{% url 'admin:index' %}">Admin</a>
@@ -39,15 +38,6 @@
                 </li>
             </ul>
         </nav>
-        <div>
-            <p>
-            <form method="GET">
-                <input type="text" name="q">
-                <button type="submit">Search</button>
-            </form>
-            </p>
-        </div>
-
         {% block pagination %}
         {% endblock pagination %}
     </header>
