@@ -26,6 +26,7 @@
 <main>
     {% for mealplan in mealplan_list %}
     <div>
+        {% if user.username == mealplan.owner.username %}
         <h2>
             <a href="{% url 'mealplan_detail' mealplan.id %}">{{ mealplan.name }}</a>
         </h2>
@@ -34,16 +35,17 @@
             <a href="{% url 'mealplan_detail' recipe.pk %}">{{ recipe.name }}</a>
         </p>
         {% endfor %}
+        {% endif %}
     </div>
     {% empty %}
     <div>
         <h1>No meals, yet</h1>
-        <p>
-            Would you like to
-            <a href="{% url 'mealplan_new' %}">create</a>
-            one?
-        </p>
     </div>
     {% endfor %}
+    <p>
+        Would you like to
+        <a href="{% url 'mealplan_new' %}">create</a>
+        a new meal plan?
+    </p>
 </main>
 {% endblock content %}

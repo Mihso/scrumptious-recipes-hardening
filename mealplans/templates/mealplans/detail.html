@@ -4,6 +4,7 @@
 {% load markdownify %}
 
 {% block content %}
+{% if user.username == mealplan.owner.username %}
 <main class="mealplans-detail">
     <div>
         <a href="{% url 'mealplan_edit' mealplan.id %}">Edit</a>
@@ -15,5 +16,8 @@
         <a href="{% url 'recipe_detail' recipe.pk %}">{{ recipe.name }}</a>
     </p>
     {% endfor %}
+
+    <P>Meal plan to be served on {{mealplan.date}}.</P>
 </main>
+{% endif %}
 {% endblock content %}

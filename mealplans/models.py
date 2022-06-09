@@ -1,3 +1,6 @@
+from email.charset import add_charset, add_codec
+from msilib import add_data
+import datetime
 from django.db import models
 
 from django.conf import settings
