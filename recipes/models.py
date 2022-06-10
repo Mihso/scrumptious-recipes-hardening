@@ -84,3 +84,15 @@ class Rating(models.Model):
         related_name="ratings",
         on_delete=models.CASCADE,
     )
+
+
+class ShoppingList(models.Model):
+    user = models.ForeignKey(
+        USER_MODEL,
+        related_name="shoppingItems",
+        on_delete=models.CASCADE,
+    )
+    food_item = models.ForeignKey("FoodItem", on_delete=models.PROTECT)
+
+    def __str__(self):
+        return str(self.user.username)

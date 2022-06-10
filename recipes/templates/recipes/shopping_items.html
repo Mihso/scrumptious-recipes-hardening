@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% load markdownify %}
+
+{% block content %}
+<main class="recipe-grid">
+    <p>Hello</p>
+    <div>
+        <form method="POSt" action="{% url 'shopping_items_delete' %}">
+            {% csrf_token %}
+            <div>
+                <button>Delete</button>
+            </div>
+        </form>
+        <ul>
+            {% for item in user.shoppingItems.all %}
+            <li>
+                {{ item.food_item.name }}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</main>
+
+{% endblock content %}

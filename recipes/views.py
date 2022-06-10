@@ -1,13 +1,14 @@
+from webbrowser import get
+from django.db import IntegrityError
 from django.shortcuts import redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic.list import ListView
-
+from django.views.decorators.http import require_http_methods
 from recipes.forms import RatingForm
-
-from recipes.models import Recipe
+from recipes.models import Ingredient, Recipe, ShoppingList
 
 
 def log_rating(request, recipe_id):
@@ -35,7 +36,6 @@ class RecipeListView(ListView):
         return Recipe.objects.filter(description__icontains=querystring)
 
 
-
 class RecipeDetailView(DetailView):
     model = Recipe
     template_name = "recipes/detail.html"
@@ -43,6 +43,10 @@ class RecipeDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["rating_form"] = RatingForm()
+        new_list = []
+        for item in self.request.user.shoppingItems.all():
+            new_list.append(item.food_item)
+        context["food_in_shopping_list"] = new_list
         return context
 
 
@@ -68,3 +72,32 @@ class RecipeDeleteView(LoginRequiredMixin, DeleteView):
     model = Recipe
     template_name = "recipes/delete.html"
     success_url = reverse_lazy("recipes_list")
+
+
+class shoppingItemsViewList(LoginRequiredMixin, ListView):
+    model = ShoppingList
+    template_name = "recipes/shopping_items.html"
+
+    def get_queryset(self):
+        return ShoppingList.objects.filter(user=self.request.user)
+
+
+@require_http_methods(["POST"])
+def shoppingItemsCreateList(request):
+    ingd = request.POST.get("ingredient_id")
+    ind = Ingredient.objects.get(id=ingd)
+    user = request.user
+    try:
+        ShoppingList.objects.create(
+            user=user,
+            food_item=ind.food,
+        )
+    except IntegrityError:
+        pass
+    return redirect("recipe_detail", pk=ind.recipe.id)
+
+
+@require_http_methods(["POST"])
+def shopppingItemsDeleteList(request):
+    ShoppingList.objects.filter(user=request.user).delete()
+    return redirect("recipe_shopping_items")
