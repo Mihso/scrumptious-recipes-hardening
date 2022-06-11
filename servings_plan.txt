@@ -1,0 +1,29 @@
+Servings Plan
+
+requirements
+[]inside recipes app
+[]create no new models
+[]no new paths
+[]above ratings button 
+    [] create new form above ratings button
+
+steps:
+[]modify Recipe model
+    []add servings variable
+        []use PositiveIntegerField()
+            []can be null , but have null = 1
+[]modify create and edit on views.py
+    []include servings variable on input fields
+[]add form and button to detail.html
+    []add GET form instead of Post form
+        []no action
+    []Create new form class
+        []utilize servings from Recipe Model
+    []only takes positive integers greater than 0
+    []add button
+    []redirects back to detail.html
+    []show servings on detail.html
+        []{{ recipe.servings }}
+
+[]create new filter template that resizes servings
+    []read through article about this

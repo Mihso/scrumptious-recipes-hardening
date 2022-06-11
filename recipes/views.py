@@ -47,13 +47,14 @@ class RecipeDetailView(DetailView):
         for item in self.request.user.shoppingItems.all():
             new_list.append(item.food_item)
         context["food_in_shopping_list"] = new_list
+        context["servings"] = self.request.GET.get("servings")
         return context
 
 
 class RecipeCreateView(LoginRequiredMixin, CreateView):
     model = Recipe
     template_name = "recipes/new.html"
-    fields = ["name", "description", "image"]
+    fields = ["name", "description", "image", "servings"]
     success_url = reverse_lazy("recipes_list")
 
     def form_valid(self, form):
@@ -64,7 +65,7 @@ class RecipeCreateView(LoginRequiredMixin, CreateView):
 class RecipeUpdateView(LoginRequiredMixin, UpdateView):
     model = Recipe
     template_name = "recipes/edit.html"
-    fields = ["name", "author", "description", "image"]
+    fields = ["name", "author", "description", "image", "servings"]
     success_url = reverse_lazy("recipes_list")
 
 

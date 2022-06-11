@@ -18,6 +18,9 @@ class Recipe(models.Model):
         null=True,
     )
     description = models.TextField()
+    servings = models.PositiveIntegerField(
+        validators=[MaxValueValidator(10), MinValueValidator(1)], null=1
+    )
     image = models.URLField(null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
